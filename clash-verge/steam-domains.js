@@ -9,10 +9,10 @@
 //       匹配到的域名命中 DIRECT，不再落到订阅里 Steam 的代理规则上。
 // ============================================================================
 
-// ⚠️ 改成你自己的仓库（必须公开，否则内核拉不到规则）
+// ⚠️ 下面已指向本仓库；fork 或换仓库时记得同步修改（仓库必须公开）
 // 若 raw 地址在你的网络下不稳定，可以把下面的 provider 换成 type: "file"，
 // 由 Verge 本地读取 ./ruleset/steam-domains.yaml（需自己把文件放进该目录）。
-var PROVIDER_URL = "https://raw.githubusercontent.com/<owner>/<repo>/main/steam-domains.yaml";
+var PROVIDER_URL = "https://raw.githubusercontent.com/pugaizai/steam-clash-rules/main/steam-domains.yaml";
 
 // 规则集在配置里的名字，也是 RULE-SET 引用的名字
 var PROVIDER_NAME = "steam-domains";

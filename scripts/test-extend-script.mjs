@@ -3,8 +3,9 @@ import fs from 'node:fs';
 const src0 = fs.readFileSync('clash-verge/steam-domains.js', 'utf8');
 const load = (src) => new Function(src + '\nreturn main;')();
 
-// 用真实 URL 替换占位符再测
-const src = src0.replace('https://raw.githubusercontent.com/<owner>/<repo>/main/steam-domains.yaml', 'https://raw.githubusercontent.com/me/steam-domains/main/steam-domains.yaml');
+// 把 PROVIDER_URL 换成给定值，避免测试依赖脚本里当前的地址
+const withUrl = (url) => src0.replace(/var PROVIDER_URL = ".*";/, `var PROVIDER_URL = "${url}";`);
+const src = withUrl('https://example.com/steam-domains.yaml');
 
 const main = load(src);
 let cfg = { rules: ['RULE-SET,Steam,节点选择', 'MATCH,漏网之鱼'] };
@@ -21,7 +22,7 @@ const count = out2.rules.filter((r) => String(r).startsWith('RULE-SET,steam-doma
 console.log('idempotent count:', count);
 
 // 占位符未替换时不应改动配置
-const mainPlaceholder = load(src0);
+const mainPlaceholder = load(withUrl('https://raw.githubusercontent.com/<owner>/<repo>/main/steam-domains.yaml'));
 const untouched = mainPlaceholder({ rules: ['MATCH,x'] }, 'sub-A');
 console.log('placeholder untouched:', JSON.stringify(untouched));
 

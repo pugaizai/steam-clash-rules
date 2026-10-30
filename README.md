@@ -61,7 +61,7 @@ node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生
 
 [`clash-verge/steam-domains.js`](clash-verge/steam-domains.js) 是全局扩展脚本，作用是把 `steam-domains.yaml` 以 `RULE-SET` 形式插到规则最前面，命中即 `DIRECT`。
 
-1. 把脚本里的 `PROVIDER_URL` 换成你自己的仓库地址（必须公开）
+1. `PROVIDER_URL` 已指向 `pugaizai/steam-clash-rules`；fork 或换仓库时改成自己的（必须公开）
 2. Clash Verge Rev → 设置 → 全局扩展脚本 → 编辑文件 → 粘贴 → 保存
 3. 保存后 Verge 会重新生成配置，规则立即生效
 
