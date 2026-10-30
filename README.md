@@ -1,9 +1,9 @@
-# steam-direct
+# steam-domains
 
 Steam 相关域名的直连清单。每月自动从六套社区规则集采集候选域名、逐个探测，产出分类清单。
 
-- [`steam-direct.md`](steam-direct.md) — 分类清单，每行一个域名
-- [`steam-direct.yaml`](steam-direct.yaml) — 由同一份数据生成的 Clash `rule-provider`
+- [`steam-domains.md`](steam-domains.md) — 分类清单，每行一个域名
+- [`steam-domains.yaml`](steam-domains.yaml) — 由同一份数据生成的 Clash `rule-provider`
 - [`data/steam-domains.json`](data/steam-domains.json) — 人工维护的分类、备注与排除名单
 - [`data/collected.json`](data/collected.json) — 上次采集结果（自动生成）
 
@@ -44,7 +44,7 @@ Kelee 官方源 `rule.kelee.one` 有 Cloudflare 质询，抓取会 403，所以�
 
 ## 自动化
 
-[`.github/workflows/steam-direct.yml`](.github/workflows/steam-direct.yml) 每月 1 日 03:00 UTC 运行：采集 → 探测 → 重新生成 md/yaml → 有变化就提交。
+[`.github/workflows/steam-domains.yml`](.github/workflows/steam-domains.yml) 每月 1 日 03:00 UTC 运行：采集 → 探测 → 重新生成 md/yaml → 有变化就提交。
 
 **探测节点**：GitHub 托管 runner 在境外，没有 GFW 干扰，验证的是「域名还活着」，不是「国内能不能直连」。要看后者，用 `workflow_dispatch` 触发并把 `runner` 填成自托管 runner 的 label（那台机器要在国内网络下）。
 
@@ -60,7 +60,7 @@ node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生
 ## 增删域名
 
 - **长期维护**：改 `data/steam-domains.json` 的 `sections[].domains`，可带 `note`
-- **临时补充**：直接往 `steam-direct.md` 的分类里加一行，构建脚本会解析旧 md 并回并到对应分类（「待观察」「自动发现」两段不会被回并）
+- **临时补充**：直接往 `steam-domains.md` 的分类里加一行，构建脚本会解析旧 md 并回并到对应分类（「待观察」「自动发现」两段不会被回并）
 - **自动发现转正**：把「自动发现」里的域名手工挪到上面某个分类，它就成了固定条目
 
 被判定 DNS 失效的域名会落到「待观察」，恢复解析后下次自动回到原分类。

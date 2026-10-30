@@ -13,7 +13,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT = path.join(ROOT, 'data', 'collected.json');
-const UA = 'steam-direct-collector/1.0 (+https://github.com)';
+const UA = 'steam-domains-collector/1.0 (+https://github.com)';
 
 // 只保留与 Steam 相关的条目
 const KEY = /steam|valvesoftware|valve\.net|dota2|csgo|wmsj|artifact|underlords|bscstorage|eccdnx|pinyuncloud|8686c|clngaa|ksyna|manlaxy|pphimalayanrt|tnkjmec|fanatical|humblebundle/;

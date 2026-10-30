@@ -1,4 +1,4 @@
-name: Refresh Steam direct domains
+name: Refresh Steam domains
 
 on:
   schedule:
@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: steam-direct
+  group: steam-domains
   cancel-in-progress: false
 
 jobs:
@@ -51,11 +51,11 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add steam-direct.md steam-direct.yaml data/collected.json
+          git add steam-domains.md steam-domains.yaml data/collected.json
           if git diff --staged --quiet; then
             echo "没有变化，跳过提交"
           else
-            git commit -m "chore: refresh steam-direct ($(date -u +%F))"
+            git commit -m "chore: refresh steam-domains ($(date -u +%F))"
             git push
           fi
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 探测 Steam 相关域名的直连可用性，生成 steam-direct.md 与 steam-direct.yaml。
+ * 探测 Steam 相关域名的直连可用性，生成 steam-domains.md 与 steam-domains.yaml。
  *
  * 判定方式：DNS 解析（AliDNS 优先）→ 连接 IP:443（SNI 用域名）→ GET /
  *           443 失败再退回 80/HTTP（部分 CDN 节点不配证书）
@@ -15,8 +15,8 @@ import tls from 'node:tls';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DATA = path.join(ROOT, 'data', 'steam-domains.json');
 const COLLECTED = path.join(ROOT, 'data', 'collected.json');
-const MD = path.join(ROOT, 'steam-direct.md');
-const YAML = path.join(ROOT, 'steam-direct.yaml');
+const MD = path.join(ROOT, 'steam-domains.md');
+const YAML = path.join(ROOT, 'steam-domains.yaml');
 
 const TIMEOUT = Number(process.env.PROBE_TIMEOUT_MS || 8000);
 const CONCURRENCY = Number(process.env.PROBE_CONCURRENCY || 8);
@@ -51,7 +51,7 @@ const httpGet = (host, ip, port, secure) => new Promise((resolve) => {
   let done = false;
   const fin = (o) => { if (!done) { done = true; resolve({ ...o, ms: Date.now() - t0 }); try { socket.destroy(); } catch {} } };
   socket.once(secure ? 'secureConnect' : 'connect', () => {
-    socket.write(`GET / HTTP/1.1\r\nHost: ${host}\r\nConnection: close\r\nUser-Agent: steam-direct-probe\r\n\r\n`);
+    socket.write(`GET / HTTP/1.1\r\nHost: ${host}\r\nConnection: close\r\nUser-Agent: steam-domains-probe\r\n\r\n`);
   });
   let buf = '';
   socket.on('data', (d) => {
@@ -224,10 +224,10 @@ y.push(`# 未连通 ${unreachable} 个（仍在 md 中保留，暂不写入本�
 y.push('#');
 y.push('# 用法：');
 y.push('#   rule-providers:');
-y.push('#     steam-direct: { type: http, behavior: classical, format: yaml,');
-y.push('#                      url: "<raw 地址>", path: ./ruleset/steam-direct.yaml, interval: 86400 }');
+y.push('#     steam-domains: { type: http, behavior: classical, format: yaml,');
+y.push('#                      url: "<raw 地址>", path: ./ruleset/steam-domains.yaml, interval: 86400 }');
 y.push('#   rules:');
-y.push('#     - RULE-SET,steam-direct,DIRECT   # 必须放在 Steam 代理规则之前');
+y.push('#     - RULE-SET,steam-domains,DIRECT   # 必须放在 Steam 代理规则之前');
 y.push('payload:');
 for (let i = 0; i < sections.length; i++) {
   const list = listed[i].filter((d) => results.get(d.domain)?.ok);
