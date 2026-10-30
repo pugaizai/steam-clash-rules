@@ -4,7 +4,7 @@ const src0 = fs.readFileSync('clash-verge/steam-domains.js', 'utf8');
 const load = (src) => new Function(src + '\nreturn main;')();
 
 // 用真实 URL 替换占位符再测
-const src = src0.replace('https://cdn.jsdelivr.net/gh/<owner>/<repo>@main/steam-domains.yaml', 'https://cdn.jsdelivr.net/gh/me/steam-domains@main/steam-domains.yaml');
+const src = src0.replace('https://raw.githubusercontent.com/<owner>/<repo>/main/steam-domains.yaml', 'https://raw.githubusercontent.com/me/steam-domains/main/steam-domains.yaml');
 
 const main = load(src);
 let cfg = { rules: ['RULE-SET,Steam,节点选择', 'MATCH,漏网之鱼'] };

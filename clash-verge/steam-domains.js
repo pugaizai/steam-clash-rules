@@ -10,10 +10,9 @@
 // ============================================================================
 
 // ⚠️ 改成你自己的仓库（必须公开，否则内核拉不到规则）
-// jsDelivr 在国内通常比 raw.githubusercontent 稳，但缓存约 12 小时；
-// 想立刻生效可临时换成：
-//   https://raw.githubusercontent.com/<owner>/<repo>/main/steam-domains.yaml
-var PROVIDER_URL = "https://cdn.jsdelivr.net/gh/<owner>/<repo>@main/steam-domains.yaml";
+// 若 raw 地址在你的网络下不稳定，可以把下面的 provider 换成 type: "file"，
+// 由 Verge 本地读取 ./ruleset/steam-domains.yaml（需自己把文件放进该目录）。
+var PROVIDER_URL = "https://raw.githubusercontent.com/<owner>/<repo>/main/steam-domains.yaml";
 
 // 规则集在配置里的名字，也是 RULE-SET 引用的名字
 var PROVIDER_NAME = "steam-domains";
