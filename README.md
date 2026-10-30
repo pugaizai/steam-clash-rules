@@ -1,9 +1,9 @@
 # steam-domains
 
-Steam 相关域名的直连清单。每月自动从六套社区规则集采集候选域名、逐个探测，产出分类清单。
+Steam 相关域名的直连清单。每月自动从六套社区规则集采集候选域名、逐个探测，产出分类清单；Clash 规则集由本地探测生成。
 
 - [`steam-domains.md`](steam-domains.md) — 分类清单，每行一个域名
-- [`steam-domains.yaml`](steam-domains.yaml) — 由同一份数据生成的 Clash `rule-provider`
+- [`steam-domains.yaml`](steam-domains.yaml) — Clash `rule-provider`，本地运行 `scripts/build.mjs --yaml` 生成（CI 不生成、不提交）
 - [`data/steam-domains.json`](data/steam-domains.json) — 人工维护的分类、备注与排除名单
 - [`data/collected.json`](data/collected.json) — 上次采集结果（自动生成）
 
@@ -44,16 +44,21 @@ Kelee 官方源 `rule.kelee.one` 有 Cloudflare 质询，抓取会 403，所以�
 
 ## 自动化
 
-[`.github/workflows/steam-domains.yml`](.github/workflows/steam-domains.yml) 每月 1 日 03:00 UTC 运行：采集 → 探测 → 重新生成 md/yaml → 有变化就提交。
+[`.github/workflows/steam-domains.yml`](.github/workflows/steam-domains.yml) 每月 1 日 03:00 UTC 运行：采集 → 探测 → 重新生成 `steam-domains.md` → 有变化就提交。**它不生成、不提交 `steam-domains.yaml`。**
 
-**探测节点**：GitHub 托管 runner 在境外，没有 GFW 干扰，验证的是「域名还活着」，不是「国内能不能直连」。要看后者，用 `workflow_dispatch` 触发并把 `runner` 填成自托管 runner 的 label（那台机器要在国内网络下）。
+**为什么 yaml 不给 CI 生成**：GitHub 托管 runner 在境外，没有 GFW，探测只能证明「域名还活着」，不能证明国内能直连；把这种结论写进直连规则集会误伤。所以 `steam-domains.yaml` 必须在你实际使用这套规则的机器上（国内网络）生成，再手动提交。
+
+**探测节点（md）**：CI 的探测只回答「域名还活着」，`steam-domains.md` 的可达统计仅作回归参考；直连结论以本地生成的 `steam-domains.yaml` 为准。偶尔也可以用 `workflow_dispatch` 把 `runner` 填成国内自托管 runner 的 label 去跑 md。
 
 手动跑：
 
 ```bash
-node scripts/collect.mjs        # 只采集
-node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生成
+node scripts/collect.mjs        # 只采集候选域名
+node scripts/build.mjs          # 探测 → 生成 steam-domains.md（CI 同款，不动 yaml）
+node scripts/build.mjs --yaml   # 探测 → 生成 steam-domains.yaml（本地专用，不动 md）
 ```
+
+两种输出分开写，互不覆盖；`--yaml` 在 `GITHUB_ACTIONS=true` 环境下会直接报错退出。本地生成后 `git add steam-domains.yaml` 提交即可。
 
 零第三方依赖，Node ≥ 20.11（用到 `import.meta.dirname`）。
 
@@ -64,6 +69,7 @@ node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生
 1. `PROVIDER_URL` 已指向 `pugaizai/steam-clash-rules`；fork 或换仓库时改成自己的（必须公开）
 2. Clash Verge Rev → 设置 → 全局扩展脚本 → 编辑文件 → 粘贴 → 保存
 3. 保存后 Verge 会重新生成配置，规则立即生效
+4. `steam-domains.yaml` 不随 CI 自动刷新：改完域名或想更新可达性，本地跑 `node scripts/build.mjs --yaml` 后提交
 
 脚本只做两件事：往 `config["rule-providers"]` 里塞一个 `behavior: classical` 的 provider，然后把 `RULE-SET,steam-domains,DIRECT` 放在 `config.rules[0]`。重复执行不会产生重复规则；`ONLY_PROFILES` 非空时只对指定订阅生效。
 
@@ -78,6 +84,7 @@ node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生
 - **长期维护**：改 `data/steam-domains.json` 的 `sections[].domains`，可带 `note`
 - **临时补充**：直接往 `steam-domains.md` 的分类里加一行，构建脚本会解析旧 md 并回并到对应分类（「待观察」「自动发现」两段不会被回并）
 - **自动发现转正**：把「自动发现」里的域名手工挪到上面某个分类，它就成了固定条目
+- **更新规则集**：改完 `data/steam-domains.json` 后本地跑 `node scripts/build.mjs --yaml`，把生成的 `steam-domains.yaml` 一并提交
 
 被判定 DNS 失效的域名会落到「待观察」，恢复解析后下次自动回到原分类。
 

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       runner:
-        description: '运行节点。默认 GitHub 托管（境外，不含 GFW，仅供连通性回归）；想看国内直连结论请填自托管 runner 的 label'
+        description: '运行节点。默认 GitHub 托管（境外，不含 GFW，只验证域名存活）；想让 md 的可达统计贴近国内网络，填国内自托管 runner 的 label。steam-domains.yaml 始终由本地生成，与本工作流无关'
         required: false
         default: 'ubuntu-latest'
 
@@ -36,7 +36,8 @@ jobs:
           set -o pipefail
           node scripts/collect.mjs | tee collect.log
 
-      - name: Probe domains and regenerate files
+      - name: Probe domains and regenerate steam-domains.md
+        # 只刷新 steam-domains.md；steam-domains.yaml 由维护者本地探测生成，CI 不生成也不提交
         env:
           PROBE_NODE: ${{ runner.name }}
           PROBE_CONCURRENCY: '8'
@@ -49,7 +50,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add steam-domains.md steam-domains.yaml data/collected.json
+          git add steam-domains.md data/collected.json
           if git diff --staged --quiet; then
             echo "没有变化，跳过提交"
           else
@@ -76,4 +77,8 @@ jobs:
             echo '```'
             grep -E '^(PASS|FAIL)' build.log | tail -n 60 || true
             echo '```'
+            echo
+            echo "### 规则集"
+            echo
+            echo '`steam-domains.yaml` 由本地运行 `node scripts/build.mjs --yaml` 生成，本工作流不更新它。'
           } >> "$GITHUB_STEP_SUMMARY"

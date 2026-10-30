@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 /**
- * 探测 Steam 相关域名的直连可用性，生成 steam-domains.md 与 steam-domains.yaml。
+ * 探测 Steam 相关域名的直连可用性，生成 steam-domains.md（默认）与 steam-domains.yaml（--yaml）。
+ *
+ * steam-domains.yaml 只在本地生成：GitHub 托管 runner 在境外，探测到的「能连通」不代表国内能直连。
+ * 默认只写 md（CI 维护），--yaml 只写 yaml（本地维护），两者互不覆盖。
  *
  * 判定方式：DNS 解析（AliDNS 优先）→ 连接 IP:443（SNI 用域名）→ GET /
  *           443 失败再退回 80/HTTP（部分 CDN 节点不配证书）
@@ -20,6 +23,15 @@ const YAML = path.join(ROOT, 'steam-domains.yaml');
 
 // 规则集的公开地址，写进 yaml 头部的用法示例
 const RAW_URL = 'https://raw.githubusercontent.com/pugaizai/steam-clash-rules/main/steam-domains.yaml';
+
+// ---- 输出选择 ----
+const ARGS = new Set(process.argv.slice(2));
+const WRITE_YAML = ARGS.has('--yaml');
+const WRITE_MD = !WRITE_YAML;
+if (WRITE_YAML && process.env.GITHUB_ACTIONS === 'true') {
+  console.error('steam-domains.yaml 不允许在 GitHub Actions 中生成，请在自己（目标网络）的机器上运行 --yaml。');
+  process.exit(1);
+}
 
 const TIMEOUT = Number(process.env.PROBE_TIMEOUT_MS || 8000);
 const CONCURRENCY = Number(process.env.PROBE_CONCURRENCY || 8);
@@ -194,7 +206,7 @@ md.push(`> 最近更新：${stamp}　探测节点：\`${node}\``);
 md.push(`> 共 ${total} 个域名　可达 ${okCount}（其中 ${viaHttp} 个仅 HTTP）　未连通 ${unreachable}　待观察 ${dead.length}`);
 if (autoSection) md.push(`> 自动发现：采集命中 ${autoFound + autoDropped} 个，本次可达 ${autoFound} 个，未通的 ${autoDropped} 个未列出\n`);
 else md.push('');
-md.push('> 注意：GitHub 托管 runner 位于境外，不含 GFW 干扰；「国内能否直连」请用自托管 runner 复核。\n');
+md.push(`> 注意：可达判定来自探测节点（${process.env.GITHUB_ACTIONS === 'true' ? 'GitHub 托管 runner，境外，不含 GFW 干扰' : '本地机器'}）；直连规则集 steam-domains.yaml 由本地网络探测生成，以它为准。\n`);
 
 for (let i = 0; i < sections.length; i++) {
   const s = sections[i];
@@ -216,13 +228,14 @@ if (dead.length) {
   md.push('');
 }
 
-fs.writeFileSync(MD, md.join('\n'));
+if (WRITE_MD) fs.writeFileSync(MD, md.join('\n'));
 
 // ---- 生成 Clash rule-provider ----
 const y = [];
 y.push('# Steam 直连规则集');
-y.push('# 由 scripts/build.mjs 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。');
+y.push('# 由本地运行 `node scripts/build.mjs --yaml` 探测生成；GitHub Actions 不生成、不提交本文件。');
 y.push(`# 最近更新：${stamp}　探测节点：${node}`);
+y.push('# 探测节点要选你实际走这条规则的那台机器（国内网络）；境外节点探测出的「直连」不可信。');
 y.push(`# 共 ${okCount} 个域名，全部为本次探测可达的条目。`);
 y.push(`# 未连通 ${unreachable} 个（仍在 md 中保留，暂不写入本文件）；DNS 已失效 ${dead.length} 个。`);
 y.push('#');
@@ -248,5 +261,7 @@ for (let i = 0; i < sections.length; i++) {
 y.push('  # 明确不要加进直连（国内实测不通，加了社区会打不开）：');
 for (const e of data.excluded || []) y.push(`  # - DOMAIN-SUFFIX,${e.domain}   # ${e.reason}`);
 
-fs.writeFileSync(YAML, y.join('\n'));
-console.log(`\n生成 ${path.basename(MD)}（${okCount}/${total} 通过）与 ${path.basename(YAML)}`);
+if (WRITE_YAML) fs.writeFileSync(YAML, y.join('\n'));
+const written = [WRITE_MD ? path.basename(MD) : null, WRITE_YAML ? path.basename(YAML) : null].filter(Boolean);
+console.log(`\n生成 ${written.join(' 与 ')}（${okCount}/${total} 可达）`);
+if (!WRITE_YAML) console.log('提示：steam-domains.yaml 只在本地生成，加 --yaml 才会写入。');
