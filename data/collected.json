@@ -1,9 +1,10 @@
 {
- "generated": "2026-10-30T07:58:28.476Z",
+ "generated": "2026-10-30T08:11:46.665Z",
  "sources": [
   {
    "id": "v2fly",
-   "repo": "v2fly/domain-list-community@master",
+   "repo": "v2fly/domain-list-community",
+   "branch": "master",
    "files": [
     {
      "path": "data/steam",
@@ -16,7 +17,8 @@
   },
   {
    "id": "acl4ssr",
-   "repo": "ACL4SSR/ACL4SSR@master",
+   "repo": "ACL4SSR/ACL4SSR",
+   "branch": "master",
    "files": [
     {
      "path": "Clash/Ruleset/Steam.list",
@@ -39,7 +41,8 @@
   },
   {
    "id": "meta-rules-dat",
-   "repo": "MetaCubeX/meta-rules-dat@meta",
+   "repo": "MetaCubeX/meta-rules-dat",
+   "branch": "meta",
    "files": [
     {
      "path": "geo/geosite/steam.yaml",
@@ -57,7 +60,8 @@
   },
   {
    "id": "kelee",
-   "repo": "mihoyo-typ/KeleeOne@Loon",
+   "repo": "mihoyo-typ/KeleeOne",
+   "branch": "Loon",
    "files": [
     {
      "path": "Rule/Steam.lsr",
@@ -81,7 +85,8 @@
   },
   {
    "id": "rabbit-spec",
-   "repo": "Rabbit-Spec/Clash@Master",
+   "repo": "Rabbit-Spec/Clash",
+   "branch": "Master",
    "files": [
     {
      "path": "Rules/Game.yaml",
@@ -94,7 +99,8 @@
   },
   {
    "id": "loyalsoldier",
-   "repo": "Loyalsoldier/clash-rules@release",
+   "repo": "Loyalsoldier/clash-rules",
+   "branch": "release",
    "files": [
     {
      "path": "proxy.txt",

@@ -4,7 +4,7 @@
  *
  * 判定方式：DNS 解析（AliDNS 优先）→ 连接 IP:443（SNI 用域名）→ GET /
  *           443 失败再退回 80/HTTP（部分 CDN 节点不配证书）
- * 通过标准：拿到任意 HTTP 状态码即算可达；403/404 属正常响应。
+ * 通过标准：HTTPS 状态码 < 500，或 HTTP 状态码 < 400；403/404 属正常响应。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -75,17 +75,17 @@ async function probeHost(host) {
   let lastErr = 'FAIL';
   for (const ip of ips.slice(0, 4)) {
     const https = await httpGet(host, ip, 443, true);
-    if (https.ok && https.status < 500) return { host, ip, via: 'https', ...https };
+    if (https.ok && https.status < 500) return { host, via: 'https', ...https };
     const http = await httpGet(host, ip, 80, false);
-    if (http.ok && http.status < 400) return { host, ip, via: 'http', ...http };
+    if (http.ok && http.status < 400) return { host, via: 'http', ...http };
     lastErr = https.ok ? `HTTP_${https.status}` : (https.err || http.err || 'FAIL');
   }
-  return { host, ip: ips[0], ok: false, err: lastErr };
+  return { host, ok: false, err: lastErr };
 }
 
 async function probeDomain(domain) {
   const targets = TARGETS[domain] || [domain];
-  const attempts = [];
+  let first = null;
   for (const host of targets) {
     let r;
     for (let i = 0; i < RETRIES; i++) {
@@ -93,10 +93,10 @@ async function probeDomain(domain) {
       if (r.ok) break;
       await new Promise((res) => setTimeout(res, 400));
     }
-    attempts.push(r);
-    if (r.ok) return { domain, ...r, attempts };
+    if (!first) first = r;
+    if (r.ok) return { domain, ...r };
   }
-  return { domain, ok: false, err: attempts[0]?.err || 'FAIL', host: attempts[0]?.host, attempts };
+  return { domain, ok: false, err: first?.err || 'FAIL' };
 }
 
 // ---- 读取种子数据，并合并已生成 md 里手工添加的域名 ----
@@ -123,7 +123,7 @@ if (fs.existsSync(MD)) {
     if (current) current.domains.push({ domain: d[1] });
     else extra.push({ domain: d[1] });
   }
-  if (extra.length) sections.push({ id: 'manual', title: '手动添加', desc: '从旧版 md 中保留的域名', domains: extra });
+  if (extra.length) sections.push({ title: '手动添加', desc: '从旧版 md 中保留的域名', domains: extra });
 }
 
 // ---- 合并规则集采集结果 ----
@@ -140,7 +140,6 @@ const autoDomains = [...collectedMap.keys()]
   .filter((d) => ![...curated].some((c) => d === c || d.endsWith('.' + c)));
 if (autoDomains.length) {
   sections.push({
-    id: 'auto',
     title: '自动发现',
     desc: '从 v2fly / ACL4SSR / meta-rules-dat / Kelee / Rabbit-Spec / Loyalsoldier 采集，尚未归入上面的分类；只列出本次可达的',
     domains: autoDomains.map((domain) => ({ domain })),
@@ -157,7 +156,9 @@ await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
     const domain = queue[cursor++];
     const r = await probeDomain(domain);
     results.set(domain, r);
-    console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${domain.padEnd(44)} ${r.ok ? `${r.via} ${r.status} ${r.ms}ms` : r.err}`);
+    // 后缀型域名命中的是代表性子域，日志里标出来，便于排查
+    const via = r.ok && r.host !== domain ? ` (${r.host})` : '';
+    console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${domain.padEnd(44)} ${r.ok ? `${r.via} ${r.status} ${r.ms}ms${via}` : r.err}`);
   }
 }));
 
@@ -175,7 +176,7 @@ const listed = sections.map((s) => s.domains
   .filter((d) => !s.dropUnreachable || results.get(d.domain)?.ok));
 const dead = sections
   .filter((s) => !s.dropUnreachable)
-  .flatMap((s) => s.domains.filter((d) => dnsDead(results.get(d.domain))).map((d) => ({ ...d, err: results.get(d.domain).err })));
+  .flatMap((s) => s.domains.filter((d) => dnsDead(results.get(d.domain))));
 const total = queue.length;
 const okCount = listed.reduce((n, list) => n + list.filter((d) => results.get(d.domain)?.ok).length, 0);
 const viaHttp = listed.flat().filter((d) => results.get(d.domain)?.via === 'http').length;

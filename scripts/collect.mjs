@@ -40,8 +40,8 @@ const SOURCES = [
     repo: 'MetaCubeX/meta-rules-dat',
     branch: 'meta',
     files: [
-      { path: 'geo/geosite/steam.yaml', kind: 'clash-yaml', bucket: 'proxy' },
-      { path: 'geo/geosite/steam@cn.yaml', kind: 'clash-yaml', bucket: 'direct' },
+      { path: 'geo/geosite/steam.yaml', kind: 'yaml-list', bucket: 'proxy' },
+      { path: 'geo/geosite/steam@cn.yaml', kind: 'yaml-list', bucket: 'direct' },
     ],
   },
   {
@@ -66,8 +66,8 @@ const SOURCES = [
     repo: 'Loyalsoldier/clash-rules',
     branch: 'release',
     files: [
-      { path: 'proxy.txt', kind: 'clash-txt', bucket: 'proxy' },
-      { path: 'direct.txt', kind: 'clash-txt', bucket: 'direct' },
+      { path: 'proxy.txt', kind: 'yaml-list', bucket: 'proxy' },
+      { path: 'direct.txt', kind: 'yaml-list', bucket: 'direct' },
     ],
   },
 ];
@@ -105,8 +105,6 @@ const clean = (s) =>
     .replace(/^[-+]\s*/, '')
     .replace(/^\+\./, '')
     .replace(/^full:/, '')
-    .replace(/^@@\|\|?/, '')
-    .replace(/\|$/, '')
     .replace(/^\./, '')
     .toLowerCase();
 
@@ -134,8 +132,8 @@ const parsers = {
     }
     return out;
   },
-  // meta-rules-dat: payload: - +.domain
-  'clash-yaml': (text, file) => {
+  // YAML 列表：- +.domain / - 'domain'
+  'yaml-list': (text, file) => {
     const out = [];
     for (const line of text.split(/\r?\n/)) {
       const m = line.match(/^\s*-\s*'?"?([^\s'"]+)'?"?\s*$/);
@@ -161,15 +159,6 @@ const parsers = {
     }
     return out;
   },
-  // Loyalsoldier: - 'domain'
-  'clash-txt': (text, file) => {
-    const out = [];
-    for (const line of text.split(/\r?\n/)) {
-      const m = line.match(/^\s*-\s*'?"?([^\s'"]+)'?"?\s*$/);
-      if (m) out.push({ domain: clean(m[1]), bucket: file.bucket });
-    }
-    return out;
-  },
 };
 
 // ---- 采集 ----
@@ -177,7 +166,7 @@ const domains = new Map(); // domain -> Set(tag)
 const report = [];
 
 for (const src of SOURCES) {
-  const entry = { id: src.id, repo: `${src.repo}@${src.branch}`, files: [], ok: false, count: 0, note: src.note };
+  const entry = { id: src.id, repo: src.repo, branch: src.branch, files: [], ok: false, count: 0, note: src.note };
   for (const file of src.files) {
     const text = await fetchFile(src, file);
     if (!text) {

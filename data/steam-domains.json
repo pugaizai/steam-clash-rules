@@ -1,8 +1,6 @@
 {
-  "version": 1,
   "sections": [
     {
-      "id": "cn-cdn",
       "title": "国内 CDN",
       "desc": "蒸汽平台与各加速器 CDN，实测延迟 50–200ms",
       "domains": [
@@ -18,7 +16,6 @@
       ]
     },
     {
-      "id": "official-cdn",
       "title": "Steam 官方 CDN 与图床",
       "desc": "商店图片、游戏下载、直播；Akamai / Azure Blob",
       "domains": [
@@ -39,7 +36,6 @@
       ]
     },
     {
-      "id": "store-site",
       "title": "商店与官方站点",
       "desc": "steampowered.com 覆盖 store./api./login./checkout./help.；steamstatic.com 覆盖 cdn.akamai./shared.akamai./avatars.",
       "domains": [
@@ -58,7 +54,6 @@
       ]
     },
     {
-      "id": "third-party",
       "title": "第三方 Steam 站点",
       "desc": "非 Valve 资产，按需保留",
       "domains": [
