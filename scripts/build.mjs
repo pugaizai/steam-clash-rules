@@ -43,6 +43,7 @@ const TARGETS = {
   'steamstatic.com': ['cdn.akamai.steamstatic.com', 'shared.akamai.steamstatic.com', 'avatars.steamstatic.com'],
   'steamusercontent.com': ['images.steamusercontent.com', 'cdn.steamusercontent.com'],
   'steamcontent.com': ['alibaba.cdn.steampipe.steamcontent.com', 'steampipe.steamcontent.com'],
+  'steamserver.net': ['cmp1-hkg1.steamserver.net', 'cmp1-fra2.steamserver.net'],
   'steamchina.com': ['cdn-qc.content.steamchina.com', 'cdn-ws.content.steamchina.com'],
 };
 

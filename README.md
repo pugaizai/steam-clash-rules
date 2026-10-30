@@ -34,7 +34,7 @@ Kelee 官方源 `rule.kelee.one` 有 Cloudflare 质询，抓取会 403，所以�
 
 判定：HTTPS 状态码 < 500、或 HTTP 状态码 < 400 即算可达。`403` / `404` 是这些 CDN 对根路径的正常响应。
 
-后缀型域名（`steampowered.com`、`steamstatic.com`、`steamusercontent.com`、`steamcontent.com`、`steamchina.com`）根域没有 A 记录，探测时换用代表性子域，见脚本里的 `TARGETS`。
+后缀型域名（`steampowered.com`、`steamstatic.com`、`steamusercontent.com`、`steamcontent.com`、`steamchina.com`、`steamserver.net`）根域没有 A 记录，探测时换用代表性子域，见脚本里的 `TARGETS`。
 
 归类规则：
 

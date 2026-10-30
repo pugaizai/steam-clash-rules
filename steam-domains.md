@@ -2,11 +2,11 @@
 
 > 本文件由 `scripts/build.mjs` 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。
 
-> 最近更新：2026-10-30 09:52 UTC　探测节点：`GitHub Actions 1000014238`
-> 共 96 个域名　可达 61（其中 5 个仅 HTTP）　未连通 1　待观察 0
-> 自动发现：采集命中 57 个，本次可达 23 个，未通的 34 个未列出
+> 最近更新：2026-10-30 10:45 UTC　探测节点：`local`
+> 共 96 个域名　可达 63（其中 6 个仅 HTTP）　未连通 0　待观察 0
+> 自动发现：采集命中 56 个，本次可达 23 个，未通的 33 个未列出
 
-> 注意：可达判定来自探测节点（GitHub 托管 runner，境外，不含 GFW 干扰）；直连规则集 steam-domains.yaml 由本地网络探测生成，以它为准。
+> 注意：可达判定来自探测节点（本地机器）；直连规则集 steam-domains.yaml 由本地网络探测生成，以它为准。
 
 ## 国内 CDN (9)
 
@@ -22,7 +22,7 @@ xz.pphimalayanrt.com
 gstore.val.manlaxy.com  
 client-update.queniuqe.com  
 
-## Steam 官方 CDN 与图床 (14)
+## Steam 官方 CDN 与图床 (15)
 
 <!-- 商店图片、游戏下载、直播；Akamai / Azure Blob -->
 
@@ -40,6 +40,8 @@ steamcommunity-a.akamaihd.net.edgesuite.net
 steamusercontent.com  
 <!-- 根域无 A 记录；子域是阿里 CDN 节点，只开 80/HTTP，443 无证书 -->
 steamcontent.com  
+<!-- 根域无 A 记录；子域是 Valve 各地内容缓存（cmp1-hkg1 / cmp1-fra2 等），用代表性子域探测 -->
+steamserver.net  
 steamcloudsweden.blob.core.windows.net  
 steamugcquincy.blob.core.windows.net  
 
@@ -82,13 +84,13 @@ clngaa.com
 csgongshui.com  
 csgozbt.com  
 eccdnx.com  
-edge.steam-dns.top.comcast.net  
+steam-run.com  
 steambig.com  
 steamdd.com  
+steamdt.com  
 steamgift.site  
 steamhost.info  
 steaminventoryhelper.com  
-steamladder.com  
 steammm.com  
 steampp.net  
 steamproxy.net  

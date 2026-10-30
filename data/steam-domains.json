@@ -31,6 +31,7 @@
         "steamcommunity-a.akamaihd.net.edgesuite.net",
         { "domain": "steamusercontent.com", "note": "根域无 A 记录，images. / cdn. 子域可用（Akamai，CNAME 到 -v1.edgesuite.net）" },
         { "domain": "steamcontent.com", "note": "根域无 A 记录；子域是阿里 CDN 节点，只开 80/HTTP，443 无证书" },
+        { "domain": "steamserver.net", "note": "根域无 A 记录；子域是 Valve 各地内容缓存（cmp1-hkg1 / cmp1-fra2 等），用代表性子域探测" },
         "steamcloudsweden.blob.core.windows.net",
         "steamugcquincy.blob.core.windows.net"
       ]
