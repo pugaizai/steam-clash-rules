@@ -6,7 +6,7 @@
  *       Kelee、Rabbit-Spec、Loyalsoldier/clash-rules
  *
  * 每个来源给出若干文件，文件带 kind 决定解析方式与归类（direct / proxy）。
- * 抓取顺序：raw.githubusercontent → jsDelivr → GitHub contents API。
+ * 抓取顺序：raw.githubusercontent → GitHub contents API。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -90,7 +90,6 @@ async function fetchFile(src, file) {
   const p = file.path;
   const urls = [
     [`https://raw.githubusercontent.com/${repo}/${branch}/${p}`, {}],
-    [`https://cdn.jsdelivr.net/gh/${repo}@${branch}/${p}`, {}],
     [`https://api.github.com/repos/${repo}/contents/${p}?ref=${branch}`, { Accept: 'application/vnd.github.raw' }],
   ];
   for (const [url, headers] of urls) {

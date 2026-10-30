@@ -20,7 +20,7 @@ Steam 相关域名的直连清单。每月自动从六套社区规则集采集�
 | [Rabbit-Spec](https://github.com/Rabbit-Spec/Clash) | `Rules/Game.yaml` | 一律代理 |
 | [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) | `proxy.txt`、`direct.txt` | 按所在文件 |
 
-Kelee 官方源 `rule.kelee.one` 有 Cloudflare 质询，抓取会 403，所以改用镜像仓库 [`mihoyo-typ/KeleeOne`](https://github.com/mihoyo-typ/KeleeOne)（同步于 2025-09-18）。抓取本身按 `raw.githubusercontent → jsDelivr → GitHub API` 顺序重试。
+Kelee 官方源 `rule.kelee.one` 有 Cloudflare 质询，抓取会 403，所以改用镜像仓库 [`mihoyo-typ/KeleeOne`](https://github.com/mihoyo-typ/KeleeOne)（同步于 2025-09-18）。抓取本身按 `raw.githubusercontent → GitHub API` 顺序重试。
 
 采集到的域名会过滤掉已经被人工分类覆盖的（含后缀覆盖，比如 `cdn-qc.content.steamchina.com` 之于 `steamchina.com`），剩下的进入 md 的「自动发现」段 —— 只列出本次探测可达的，未通的只计数不列出，避免几十个死域名刷屏。
 
