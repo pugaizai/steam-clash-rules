@@ -57,6 +57,22 @@ node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生
 
 零第三方依赖，Node ≥ 20.11（用到 `import.meta.dirname`）。
 
+## 在 Clash Verge Rev 里用
+
+[`clash-verge/steam-domains.js`](clash-verge/steam-domains.js) 是全局扩展脚本，作用是把 `steam-domains.yaml` 以 `RULE-SET` 形式插到规则最前面，命中即 `DIRECT`。
+
+1. 把脚本里的 `PROVIDER_URL` 换成你自己的仓库地址（必须公开）
+2. Clash Verge Rev → 设置 → 全局扩展脚本 → 编辑文件 → 粘贴 → 保存
+3. 保存后 Verge 会重新生成配置，规则立即生效
+
+脚本只做两件事：往 `config["rule-providers"]` 里塞一个 `behavior: classical` 的 provider，然后把 `RULE-SET,steam-domains,DIRECT` 放在 `config.rules[0]`。重复执行不会产生重复规则；`ONLY_PROFILES` 非空时只对指定订阅生效。
+
+几个容易踩的点：
+
+- 规则是**前插**的，所以订阅里原有的 Steam 代理规则会被盖过去 —— 这正是目的，但也意味着这些域名的广告拦截规则同样会被越过
+- 全局模式（Global）不走规则表，脚本只在规则模式下有效
+- jsDelivr 有约 12 小时缓存；想让改动立刻生效，把 URL 临时换成 `raw.githubusercontent.com` 的形式
+
 ## 增删域名
 
 - **长期维护**：改 `data/steam-domains.json` 的 `sections[].domains`，可带 `note`
