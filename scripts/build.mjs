@@ -18,6 +18,9 @@ const COLLECTED = path.join(ROOT, 'data', 'collected.json');
 const MD = path.join(ROOT, 'steam-domains.md');
 const YAML = path.join(ROOT, 'steam-domains.yaml');
 
+// 规则集的公开地址，写进 yaml 头部的用法示例
+const RAW_URL = 'https://raw.githubusercontent.com/pugaizai/steam-clash-rules/main/steam-domains.yaml';
+
 const TIMEOUT = Number(process.env.PROBE_TIMEOUT_MS || 8000);
 const CONCURRENCY = Number(process.env.PROBE_CONCURRENCY || 8);
 const RETRIES = Number(process.env.PROBE_RETRIES || 2);
@@ -224,8 +227,13 @@ y.push(`# 未连通 ${unreachable} 个（仍在 md 中保留，暂不写入本�
 y.push('#');
 y.push('# 用法：');
 y.push('#   rule-providers:');
-y.push('#     steam-domains: { type: http, behavior: classical, format: yaml,');
-y.push('#                      url: "<raw 地址>", path: ./ruleset/steam-domains.yaml, interval: 86400 }');
+y.push('#     steam-domains:');
+y.push('#       type: http');
+y.push('#       behavior: classical');
+y.push('#       format: yaml');
+y.push(`#       url: "${RAW_URL}"`);
+y.push('#       path: ./ruleset/steam-domains.yaml');
+y.push('#       interval: 86400');
 y.push('#   rules:');
 y.push('#     - RULE-SET,steam-domains,DIRECT   # 必须放在 Steam 代理规则之前');
 y.push('payload:');

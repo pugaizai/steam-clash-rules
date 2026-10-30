@@ -71,7 +71,7 @@ node scripts/build.mjs          # 采集结果 + 人工清单 → 探测 → 生
 
 - 规则是**前插**的，所以订阅里原有的 Steam 代理规则会被盖过去 —— 这正是目的，但也意味着这些域名的广告拦截规则同样会被越过
 - 全局模式（Global）不走规则表，脚本只在规则模式下有效
-- 规则集走 `raw.githubusercontent.com`，国内直连不一定稳；拉不动就把 provider 换成 `type: "file"`，把 `steam-domains.yaml` 放到 `./ruleset/` 下由本地读取
+- 规则集地址是 `https://raw.githubusercontent.com/pugaizai/steam-clash-rules/main/steam-domains.yaml`，国内直连不一定稳；拉不动就把 provider 换成 `type: "file"`，把 `steam-domains.yaml` 放到 `./ruleset/` 下由本地读取
 
 ## 增删域名
 

@@ -2,9 +2,9 @@
 
 > 本文件由 `scripts/build.mjs` 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。
 
-> 最近更新：2026-10-30 07:37 UTC　探测节点：`local`
-> 共 96 个域名　可达 62（其中 6 个仅 HTTP）　未连通 0　待观察 0
-> 自动发现：采集命中 57 个，本次可达 23 个，未通的 34 个未列出
+> 最近更新：2026-10-30 08:08 UTC　探测节点：`local`
+> 共 96 个域名　可达 61（其中 6 个仅 HTTP）　未连通 0　待观察 0
+> 自动发现：采集命中 57 个，本次可达 22 个，未通的 35 个未列出
 
 > 注意：GitHub 托管 runner 位于境外，不含 GFW 干扰；「国内能否直连」请用自托管 runner 复核。
 
@@ -69,7 +69,7 @@ steamstat.us
 fanatical.com  
 humblebundle.com  
 
-## 自动发现 (23)
+## 自动发现 (22)
 
 <!-- 从 v2fly / ACL4SSR / meta-rules-dat / Kelee / Rabbit-Spec / Loyalsoldier 采集，尚未归入上面的分类；只列出本次可达的 -->
 
@@ -82,7 +82,6 @@ clngaa.com
 csgongshui.com  
 csgozbt.com  
 eccdnx.com  
-steam-run.com  
 steambig.com  
 steamdd.com  
 steamdt.com  
