@@ -2,11 +2,11 @@
 
 > 本文件由 `scripts/build.mjs` 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。
 
-> 最近更新：2026-10-30 10:45 UTC　探测节点：`local`
-> 共 96 个域名　可达 63（其中 6 个仅 HTTP）　未连通 0　待观察 0
+> 最近更新：2026-10-30 10:56 UTC　探测节点：`GitHub Actions 1000014239`
+> 共 96 个域名　可达 62（其中 5 个仅 HTTP）　未连通 1　待观察 0
 > 自动发现：采集命中 56 个，本次可达 23 个，未通的 33 个未列出
 
-> 注意：可达判定来自探测节点（本地机器）；直连规则集 steam-domains.yaml 由本地网络探测生成，以它为准。
+> 注意：可达判定来自探测节点（GitHub 托管 runner，境外，不含 GFW 干扰）；直连规则集 steam-domains.yaml 由本地网络探测生成，以它为准。
 
 ## 国内 CDN (9)
 
@@ -84,13 +84,13 @@ clngaa.com
 csgongshui.com  
 csgozbt.com  
 eccdnx.com  
-steam-run.com  
+edge.steam-dns.top.comcast.net  
 steambig.com  
 steamdd.com  
-steamdt.com  
 steamgift.site  
 steamhost.info  
 steaminventoryhelper.com  
+steamladder.com  
 steammm.com  
 steampp.net  
 steamproxy.net  
