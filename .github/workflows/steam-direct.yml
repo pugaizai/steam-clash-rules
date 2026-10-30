@@ -1,0 +1,68 @@
+name: Refresh Steam direct domains
+
+on:
+  schedule:
+    # 每月 1 日 03:00 UTC（北京时间 11:00）
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: '运行节点。默认 GitHub 托管（境外，不含 GFW，仅供连通性回归）；想看国内直连结论请填自托管 runner 的 label'
+        required: false
+        default: 'ubuntu-latest'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: steam-direct
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Probe domains and regenerate files
+        env:
+          PROBE_NODE: ${{ runner.name }}
+          PROBE_CONCURRENCY: '8'
+          PROBE_TIMEOUT_MS: '8000'
+        run: |
+          set -o pipefail
+          node scripts/build.mjs | tee build.log
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add steam-direct.md steam-direct.yaml
+          if git diff --staged --quiet; then
+            echo "没有变化，跳过提交"
+          else
+            git commit -m "chore: refresh steam-direct ($(date -u +%F))"
+            git push
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          pass=$(grep -c '^PASS' build.log || true)
+          fail=$(grep -c '^FAIL' build.log || true)
+          {
+            echo "### Steam 直连探测结果"
+            echo
+            echo "通过 ${pass}　失败 ${fail}"
+            echo
+            echo '```'
+            grep -E '^(PASS|FAIL)' build.log | tail -n 60 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

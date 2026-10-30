@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "cn-cdn",
+      "title": "国内 CDN",
+      "desc": "蒸汽平台与各加速器 CDN，实测延迟 50–200ms",
+      "domains": [
+        "steamchina.com",
+        "csgo.com.cn",
+        "dota2.com.cn",
+        "dl.steam.clngaa.com",
+        "st.dl.bscstorage.net",
+        "st.dl.eccdnx.com",
+        "xz.pphimalayanrt.com",
+        "gstore.val.manlaxy.com",
+        "client-update.queniuqe.com"
+      ]
+    },
+    {
+      "id": "official-cdn",
+      "title": "Steam 官方 CDN 与图床",
+      "desc": "商店图片、游戏下载、直播；Akamai / Azure Blob",
+      "domains": [
+        "steamcdn-a.akamaihd.net",
+        "steampipe.akamaized.net",
+        "steampipe-kr.akamaized.net",
+        "steamuserimages-a.akamaihd.net",
+        "steamusercontent-a.akamaihd.net",
+        "steambroadcast.akamaized.net",
+        "steammobile.akamaized.net",
+        "steamstore-a.akamaihd.net",
+        "steamcommunity-a.akamaihd.net",
+        "steamcommunity-a.akamaihd.net.edgesuite.net",
+        { "domain": "steamusercontent.com", "note": "根域无 A 记录，images. / cdn. 子域可用（Akamai，CNAME 到 -v1.edgesuite.net）" },
+        { "domain": "steamcontent.com", "note": "根域无 A 记录；子域是阿里 CDN 节点，只开 80/HTTP，443 无证书" },
+        "steamcloudsweden.blob.core.windows.net",
+        "steamugcquincy.blob.core.windows.net"
+      ]
+    },
+    {
+      "id": "store-site",
+      "title": "商店与官方站点",
+      "desc": "steampowered.com 覆盖 store./api./login./checkout./help.；steamstatic.com 覆盖 cdn.akamai./shared.akamai./avatars.",
+      "domains": [
+        "steampowered.com",
+        "steamstatic.com",
+        "steamgames.com",
+        "steam.tv",
+        "s.team",
+        "dota2.com",
+        "valvesoftware.com",
+        "playartifact.com",
+        "underlords.com",
+        "steam-chat.com",
+        "steamconnecttest.com",
+        "steamdeck.com"
+      ]
+    },
+    {
+      "id": "third-party",
+      "title": "第三方 Steam 站点",
+      "desc": "非 Valve 资产，按需保留",
+      "domains": [
+        "steamdb.info",
+        "steamstat.us",
+        "fanatical.com",
+        "humblebundle.com"
+      ]
+    }
+  ],
+  "excluded": [
+    { "domain": "steamcommunity.com", "reason": "国内 TLS 超时且 DNS 被污染，必须走代理" },
+    { "domain": "steampipe-partner.akamaized.net", "reason": "TLS 超时" },
+    { "domain": "cdn-ali.content.steamchina.com", "reason": "TLS 握手失败" },
+    { "domain": "csgo.wmsj.cn", "reason": "DNS 已不解析" },
+    { "domain": "dota2.wmsj.cn", "reason": "DNS 已不解析" },
+    { "domain": "wmsjsteam.com", "reason": "DNS 已不解析" },
+    { "domain": "steampowered.com.8686c.com", "reason": "DNS 已不解析" },
+    { "domain": "steamstatic.com.8686c.com", "reason": "DNS 已不解析" },
+    { "domain": "dl.steam.ksyna.com", "reason": "DNS 已不解析" },
+    { "domain": "st.dl.pinyuncloud.com", "reason": "DNS 已不解析" },
+    { "domain": "alibaba.cdn.steampipe.steamcontent.com", "reason": "仅 80/HTTP 可用，HTTPS 无证书" }
+  ]
+}

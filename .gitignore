@@ -1,0 +1,9 @@
+# 探测过程产生的临时文件
+probe/
+dsh-tmp/
+build.log
+
+# 依赖与系统文件
+node_modules/
+.DS_Store
+Thumbs.db

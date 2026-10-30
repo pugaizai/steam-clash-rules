@@ -1,0 +1,72 @@
+# Steam 直连规则集
+# 由 scripts/build.mjs 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。
+# 最近更新：2026-10-30 07:12 UTC　探测节点：local
+# 共 39 个域名，全部为本次探测可达的条目。
+# 未连通 0 个（仍在 md 中保留，暂不写入本文件）；DNS 已失效 0 个。
+#
+# 用法：
+#   rule-providers:
+#     steam-direct: { type: http, behavior: classical, format: yaml,
+#                      url: "<raw 地址>", path: ./ruleset/steam-direct.yaml, interval: 86400 }
+#   rules:
+#     - RULE-SET,steam-direct,DIRECT   # 必须放在 Steam 代理规则之前
+payload:
+  # ---- 国内 CDN（9）----
+  - DOMAIN-SUFFIX,steamchina.com
+  - DOMAIN-SUFFIX,csgo.com.cn
+  - DOMAIN-SUFFIX,dota2.com.cn
+  - DOMAIN-SUFFIX,dl.steam.clngaa.com
+  - DOMAIN-SUFFIX,st.dl.bscstorage.net
+  - DOMAIN-SUFFIX,st.dl.eccdnx.com
+  - DOMAIN-SUFFIX,xz.pphimalayanrt.com
+  - DOMAIN-SUFFIX,gstore.val.manlaxy.com
+  - DOMAIN-SUFFIX,client-update.queniuqe.com
+
+  # ---- Steam 官方 CDN 与图床（14）----
+  - DOMAIN-SUFFIX,steamcdn-a.akamaihd.net
+  - DOMAIN-SUFFIX,steampipe.akamaized.net
+  - DOMAIN-SUFFIX,steampipe-kr.akamaized.net
+  - DOMAIN-SUFFIX,steamuserimages-a.akamaihd.net
+  - DOMAIN-SUFFIX,steamusercontent-a.akamaihd.net
+  - DOMAIN-SUFFIX,steambroadcast.akamaized.net
+  - DOMAIN-SUFFIX,steammobile.akamaized.net
+  - DOMAIN-SUFFIX,steamstore-a.akamaihd.net
+  - DOMAIN-SUFFIX,steamcommunity-a.akamaihd.net
+  - DOMAIN-SUFFIX,steamcommunity-a.akamaihd.net.edgesuite.net
+  - DOMAIN-SUFFIX,steamusercontent.com
+  - DOMAIN-SUFFIX,steamcontent.com
+  - DOMAIN-SUFFIX,steamcloudsweden.blob.core.windows.net
+  - DOMAIN-SUFFIX,steamugcquincy.blob.core.windows.net
+
+  # ---- 商店与官方站点（12）----
+  - DOMAIN-SUFFIX,steampowered.com
+  - DOMAIN-SUFFIX,steamstatic.com
+  - DOMAIN-SUFFIX,steamgames.com
+  - DOMAIN-SUFFIX,steam.tv
+  - DOMAIN-SUFFIX,s.team
+  - DOMAIN-SUFFIX,dota2.com
+  - DOMAIN-SUFFIX,valvesoftware.com
+  - DOMAIN-SUFFIX,playartifact.com
+  - DOMAIN-SUFFIX,underlords.com
+  - DOMAIN-SUFFIX,steam-chat.com
+  - DOMAIN-SUFFIX,steamconnecttest.com
+  - DOMAIN-SUFFIX,steamdeck.com
+
+  # ---- 第三方 Steam 站点（4）----
+  - DOMAIN-SUFFIX,steamdb.info
+  - DOMAIN-SUFFIX,steamstat.us
+  - DOMAIN-SUFFIX,fanatical.com
+  - DOMAIN-SUFFIX,humblebundle.com
+
+  # 明确不要加进直连（国内实测不通，加了社区会打不开）：
+  # - DOMAIN-SUFFIX,steamcommunity.com   # 国内 TLS 超时且 DNS 被污染，必须走代理
+  # - DOMAIN-SUFFIX,steampipe-partner.akamaized.net   # TLS 超时
+  # - DOMAIN-SUFFIX,cdn-ali.content.steamchina.com   # TLS 握手失败
+  # - DOMAIN-SUFFIX,csgo.wmsj.cn   # DNS 已不解析
+  # - DOMAIN-SUFFIX,dota2.wmsj.cn   # DNS 已不解析
+  # - DOMAIN-SUFFIX,wmsjsteam.com   # DNS 已不解析
+  # - DOMAIN-SUFFIX,steampowered.com.8686c.com   # DNS 已不解析
+  # - DOMAIN-SUFFIX,steamstatic.com.8686c.com   # DNS 已不解析
+  # - DOMAIN-SUFFIX,dl.steam.ksyna.com   # DNS 已不解析
+  # - DOMAIN-SUFFIX,st.dl.pinyuncloud.com   # DNS 已不解析
+  # - DOMAIN-SUFFIX,alibaba.cdn.steampipe.steamcontent.com   # 仅 80/HTTP 可用，HTTPS 无证书
