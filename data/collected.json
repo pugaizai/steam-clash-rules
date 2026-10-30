@@ -1,0 +1,699 @@
+{
+ "generated": "2026-10-30T07:19:20.878Z",
+ "sources": [
+  {
+   "id": "v2fly",
+   "repo": "v2fly/domain-list-community@master",
+   "files": [
+    {
+     "path": "data/steam",
+     "ok": true,
+     "count": 57
+    }
+   ],
+   "ok": true,
+   "count": 57
+  },
+  {
+   "id": "acl4ssr",
+   "repo": "ACL4SSR/ACL4SSR@master",
+   "files": [
+    {
+     "path": "Clash/Ruleset/Steam.list",
+     "ok": true,
+     "count": 18
+    },
+    {
+     "path": "Clash/Ruleset/SteamCN.list",
+     "ok": true,
+     "count": 16
+    },
+    {
+     "path": "Clash/Ruleset/GameDownload.list",
+     "ok": true,
+     "count": 0
+    }
+   ],
+   "ok": true,
+   "count": 34
+  },
+  {
+   "id": "meta-rules-dat",
+   "repo": "MetaCubeX/meta-rules-dat@meta",
+   "files": [
+    {
+     "path": "geo/geosite/steam.yaml",
+     "ok": true,
+     "count": 57
+    },
+    {
+     "path": "geo/geosite/steam@cn.yaml",
+     "ok": true,
+     "count": 17
+    }
+   ],
+   "ok": true,
+   "count": 57
+  },
+  {
+   "id": "kelee",
+   "repo": "mihoyo-typ/KeleeOne@Loon",
+   "files": [
+    {
+     "path": "Rule/Steam.lsr",
+     "ok": true,
+     "count": 58
+    },
+    {
+     "path": "Rule/SteamCN.lsr",
+     "ok": true,
+     "count": 17
+    },
+    {
+     "path": "Rule/Game.lsr",
+     "ok": true,
+     "count": 52
+    }
+   ],
+   "ok": true,
+   "count": 57,
+   "note": "rule.kelee.one 有 Cloudflare 质询，改用镜像仓库"
+  },
+  {
+   "id": "rabbit-spec",
+   "repo": "Rabbit-Spec/Clash@Master",
+   "files": [
+    {
+     "path": "Rules/Game.yaml",
+     "ok": true,
+     "count": 37
+    }
+   ],
+   "ok": true,
+   "count": 37
+  },
+  {
+   "id": "loyalsoldier",
+   "repo": "Loyalsoldier/clash-rules@release",
+   "files": [
+    {
+     "path": "proxy.txt",
+     "ok": true,
+     "count": 50
+    },
+    {
+     "path": "direct.txt",
+     "ok": true,
+     "count": 41
+    }
+   ],
+   "ok": true,
+   "count": 91
+  }
+ ],
+ "domains": {
+  "8686c.com": [
+   "loyalsoldier:direct"
+  ],
+  "alibaba.cdn.steampipe.steamcontent.com": [
+   "loyalsoldier:direct",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:direct"
+  ],
+  "b5csgo.plus": [
+   "loyalsoldier:direct"
+  ],
+  "bricsgo.com": [
+   "loyalsoldier:direct"
+  ],
+  "bscstorage.com": [
+   "loyalsoldier:direct"
+  ],
+  "bscstorage.net": [
+   "loyalsoldier:direct"
+  ],
+  "cdn-ali.content.steamchina.com": [
+   "kelee:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "cdn-qc.content.steamchina.com": [
+   "kelee:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "cdn-ws.content.steamchina.com": [
+   "kelee:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "cetsteam.com": [
+   "loyalsoldier:direct"
+  ],
+  "clngaa.com": [
+   "loyalsoldier:direct"
+  ],
+  "cm.steampowered.com": [
+   "acl4ssr:direct",
+   "kelee:direct"
+  ],
+  "csgo.com.cn": [
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:direct"
+  ],
+  "csgo.wmsj.cn": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "csgocn.net": [
+   "loyalsoldier:direct"
+  ],
+  "csgongshui.com": [
+   "loyalsoldier:direct"
+  ],
+  "csgozbt.com": [
+   "loyalsoldier:direct"
+  ],
+  "dl.steam.clngaa.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "dl.steam.ksyna.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "dota2.com": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "dota2.com.cn": [
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:direct"
+  ],
+  "dota2.wmsj.cn": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "eccdnx.com": [
+   "loyalsoldier:direct"
+  ],
+  "edge.steam-dns.top.comcast.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "fanatical.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "gstore.val.manlaxy.com": [
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:direct"
+  ],
+  "humblebundle.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "jxwmsj.com": [
+   "loyalsoldier:direct"
+  ],
+  "ksyna.com": [
+   "loyalsoldier:direct"
+  ],
+  "lzswmsj.com": [
+   "loyalsoldier:direct"
+  ],
+  "manlaxy.com": [
+   "loyalsoldier:direct"
+  ],
+  "manlaxy.net": [
+   "loyalsoldier:direct"
+  ],
+  "manlaxycloud.com": [
+   "loyalsoldier:direct"
+  ],
+  "masteam.com": [
+   "loyalsoldier:direct"
+  ],
+  "nbcsgo.com": [
+   "loyalsoldier:direct"
+  ],
+  "playartifact.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "pphimalayanrt.com": [
+   "loyalsoldier:direct"
+  ],
+  "s.team": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "st.dl.bscstorage.net": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "st.dl.eccdnx.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "st.dl.pinyuncloud.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:direct",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "steam-api.com": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steam-chat.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steam-run.com": [
+   "loyalsoldier:direct"
+  ],
+  "steam.apac.qtlglb.com": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.cdn.on.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.cdn.orcon.net.nz": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.cdn.slingshot.co.nz": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.cdn.webra.ru": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.com": [
+   "loyalsoldier:direct"
+  ],
+  "steam.eca.qtlglb.com": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.naeu.qtlglb.com": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.ru.qtlglb.com": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam.tv": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steam302.xyz": [
+   "loyalsoldier:direct"
+  ],
+  "steambig.com": [
+   "loyalsoldier:direct"
+  ],
+  "steamboxs.com": [
+   "loyalsoldier:direct"
+  ],
+  "steambroadcast.akamaized.net": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamcdn-a.akamaihd.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamchina.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:direct",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:direct"
+  ],
+  "steamcloudsweden.blob.core.windows.net": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamcn.com": [
+   "loyalsoldier:direct"
+  ],
+  "steamcommunity-a.akamaihd.net": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamcommunity-a.akamaihd.net.edgesuite.net": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamcommunity.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamconnecttest.com": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamcontent.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamcontent.tnkjmec.com": [
+   "kelee:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "steamdb.info": [
+   "loyalsoldier:proxy"
+  ],
+  "steamdd.com": [
+   "loyalsoldier:direct"
+  ],
+  "steamdeck.com": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamdt.com": [
+   "loyalsoldier:direct"
+  ],
+  "steamgames.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamgift.site": [
+   "loyalsoldier:direct"
+  ],
+  "steamhost.info": [
+   "loyalsoldier:direct"
+  ],
+  "steaminventoryhelper.com": [
+   "loyalsoldier:proxy"
+  ],
+  "steamladder.com": [
+   "loyalsoldier:proxy"
+  ],
+  "steammm.com": [
+   "loyalsoldier:direct"
+  ],
+  "steammobile.akamaized.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamofporn.com": [
+   "loyalsoldier:proxy"
+  ],
+  "steamos.cloud": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steampipe-kr.akamaized.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steampipe-partner.akamaized.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steampipe.akamaized.net": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steampipe.steamcontent.tnkjmec.com": [
+   "acl4ssr:direct",
+   "kelee:direct"
+  ],
+  "steampowered.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steampowered.com.8686c.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "steampp.net": [
+   "loyalsoldier:direct"
+  ],
+  "steamproxy.net": [
+   "loyalsoldier:direct"
+  ],
+  "steampy.com": [
+   "loyalsoldier:direct"
+  ],
+  "steamrepcn.com": [
+   "loyalsoldier:direct"
+  ],
+  "steamserver.net": [
+   "acl4ssr:proxy",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamstat.us": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "steamstatic.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamstatic.com.8686c.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "steamstore-a.akamaihd.net": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamugcquincy.blob.core.windows.net": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamunlocked.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "rabbit-spec:proxy"
+  ],
+  "steamusercontent-a.akamaihd.net": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamusercontent.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "steamuserimages-a.akamaihd.net": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamvideo-a.akamaihd.net": [
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "steamygamer.com": [
+   "loyalsoldier:proxy"
+  ],
+  "underlords.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "valve.net": [
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "v2fly:proxy"
+  ],
+  "valvesoftware.com": [
+   "acl4ssr:proxy",
+   "kelee:proxy",
+   "loyalsoldier:proxy",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:proxy"
+  ],
+  "wmsjsteam.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:direct",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "rabbit-spec:proxy",
+   "v2fly:direct"
+  ],
+  "wmsjyun.com": [
+   "loyalsoldier:direct"
+  ],
+  "xz.pphimalayanrt.com": [
+   "acl4ssr:direct",
+   "kelee:direct",
+   "kelee:proxy",
+   "loyalsoldier:direct",
+   "meta-rules-dat:direct",
+   "meta-rules-dat:proxy",
+   "v2fly:direct"
+  ]
+ }
+}

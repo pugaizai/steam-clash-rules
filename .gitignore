@@ -2,6 +2,7 @@
 probe/
 dsh-tmp/
 build.log
+collect.log
 
 # 依赖与系统文件
 node_modules/

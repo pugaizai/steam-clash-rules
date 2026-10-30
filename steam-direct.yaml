@@ -1,7 +1,7 @@
 # Steam 直连规则集
 # 由 scripts/build.mjs 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。
-# 最近更新：2026-10-30 07:12 UTC　探测节点：local
-# 共 39 个域名，全部为本次探测可达的条目。
+# 最近更新：2026-10-30 07:26 UTC　探测节点：local
+# 共 62 个域名，全部为本次探测可达的条目。
 # 未连通 0 个（仍在 md 中保留，暂不写入本文件）；DNS 已失效 0 个。
 #
 # 用法：
@@ -57,6 +57,31 @@ payload:
   - DOMAIN-SUFFIX,steamstat.us
   - DOMAIN-SUFFIX,fanatical.com
   - DOMAIN-SUFFIX,humblebundle.com
+
+  # ---- 自动发现（23）----
+  - DOMAIN-SUFFIX,b5csgo.plus
+  - DOMAIN-SUFFIX,bricsgo.com
+  - DOMAIN-SUFFIX,bscstorage.com
+  - DOMAIN-SUFFIX,bscstorage.net
+  - DOMAIN-SUFFIX,cetsteam.com
+  - DOMAIN-SUFFIX,clngaa.com
+  - DOMAIN-SUFFIX,csgongshui.com
+  - DOMAIN-SUFFIX,csgozbt.com
+  - DOMAIN-SUFFIX,eccdnx.com
+  - DOMAIN-SUFFIX,steam-run.com
+  - DOMAIN-SUFFIX,steambig.com
+  - DOMAIN-SUFFIX,steamdd.com
+  - DOMAIN-SUFFIX,steamdt.com
+  - DOMAIN-SUFFIX,steamgift.site
+  - DOMAIN-SUFFIX,steamhost.info
+  - DOMAIN-SUFFIX,steaminventoryhelper.com
+  - DOMAIN-SUFFIX,steammm.com
+  - DOMAIN-SUFFIX,steampp.net
+  - DOMAIN-SUFFIX,steamproxy.net
+  - DOMAIN-SUFFIX,steampy.com
+  - DOMAIN-SUFFIX,steamrepcn.com
+  - DOMAIN-SUFFIX,steamunlocked.net
+  - DOMAIN-SUFFIX,steamygamer.com
 
   # 明确不要加进直连（国内实测不通，加了社区会打不开）：
   # - DOMAIN-SUFFIX,steamcommunity.com   # 国内 TLS 超时且 DNS 被污染，必须走代理

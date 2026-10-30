@@ -31,6 +31,13 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Collect Steam domains from rule sets
+        env:
+          PROBE_NODE: ${{ runner.name }}
+        run: |
+          set -o pipefail
+          node scripts/collect.mjs | tee collect.log
+
       - name: Probe domains and regenerate files
         env:
           PROBE_NODE: ${{ runner.name }}
@@ -44,7 +51,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add steam-direct.md steam-direct.yaml
+          git add steam-direct.md steam-direct.yaml data/collected.json
           if git diff --staged --quiet; then
             echo "没有变化，跳过提交"
           else
@@ -58,9 +65,15 @@ jobs:
           pass=$(grep -c '^PASS' build.log || true)
           fail=$(grep -c '^FAIL' build.log || true)
           {
-            echo "### Steam 直连探测结果"
+            echo "### 规则集采集"
             echo
-            echo "通过 ${pass}　失败 ${fail}"
+            echo '```'
+            grep -E '^(OK|FAIL)' collect.log || echo "采集未运行"
+            echo '```'
+            echo
+            echo "### 直连探测"
+            echo
+            echo "通过 ${pass}　未通 ${fail}"
             echo
             echo '```'
             grep -E '^(PASS|FAIL)' build.log | tail -n 60 || true

@@ -14,6 +14,7 @@ import tls from 'node:tls';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DATA = path.join(ROOT, 'data', 'steam-domains.json');
+const COLLECTED = path.join(ROOT, 'data', 'collected.json');
 const MD = path.join(ROOT, 'steam-direct.md');
 const YAML = path.join(ROOT, 'steam-direct.yaml');
 
@@ -71,10 +72,10 @@ async function probeHost(host) {
   let lastErr = 'FAIL';
   for (const ip of ips.slice(0, 4)) {
     const https = await httpGet(host, ip, 443, true);
-    if (https.ok) return { host, ip, via: 'https', ...https };
+    if (https.ok && https.status < 500) return { host, ip, via: 'https', ...https };
     const http = await httpGet(host, ip, 80, false);
     if (http.ok && http.status < 400) return { host, ip, via: 'http', ...http };
-    lastErr = https.err || http.err || 'FAIL';
+    lastErr = https.ok ? `HTTP_${https.status}` : (https.err || http.err || 'FAIL');
   }
   return { host, ip: ips[0], ok: false, err: lastErr };
 }
@@ -108,7 +109,7 @@ if (fs.existsSync(MD)) {
     const heading = line.match(/^##\s+(.+?)\s*$/);
     if (heading) {
       const title = heading[1].replace(/\s*\(\d+\)\s*$/, '').trim();
-      skip = title.startsWith('待观察');
+      skip = title.startsWith('待观察') || title.startsWith('自动发现');
       current = skip ? null : sections.find((s) => s.title === title) || null;
       continue;
     }
@@ -120,6 +121,28 @@ if (fs.existsSync(MD)) {
     else extra.push({ domain: d[1] });
   }
   if (extra.length) sections.push({ id: 'manual', title: '手动添加', desc: '从旧版 md 中保留的域名', domains: extra });
+}
+
+// ---- 合并规则集采集结果 ----
+const curated = new Set(sections.flatMap((s) => s.domains.map((d) => d.domain)));
+const excludedSet = new Set((data.excluded || []).map((e) => e.domain));
+let collectedMap = new Map();
+if (fs.existsSync(COLLECTED)) {
+  const c = JSON.parse(fs.readFileSync(COLLECTED, 'utf8'));
+  collectedMap = new Map(Object.entries(c.domains || {}));
+}
+const autoDomains = [...collectedMap.keys()]
+  .filter((d) => !curated.has(d) && !excludedSet.has(d))
+  // 已被手工分类里的后缀覆盖（如 cdn-qc.content.steamchina.com 之于 steamchina.com）就不重复列出
+  .filter((d) => ![...curated].some((c) => d === c || d.endsWith('.' + c)));
+if (autoDomains.length) {
+  sections.push({
+    id: 'auto',
+    title: '自动发现',
+    desc: '从 v2fly / ACL4SSR / meta-rules-dat / Kelee / Rabbit-Spec / Loyalsoldier 采集，尚未归入上面的分类；只列出本次可达的',
+    domains: autoDomains.map((domain) => ({ domain })),
+    dropUnreachable: true,
+  });
 }
 
 // ---- 并发探测 ----
@@ -143,18 +166,30 @@ const node = process.env.PROBE_NODE || 'local';
 // ---- 归类 ----
 // DNS 解析不出来 = 域名已注销，进「待观察」；解析得到但连不上 = 暂时不通，保留在分类里
 const dnsDead = (r) => !r?.ok && /^DNS_(ENOTFOUND|ENODATA)/.test(r?.err || '');
-const listed = sections.map((s) => s.domains.filter((d) => !dnsDead(results.get(d.domain))));
-const dead = sections.flatMap((s) => s.domains.filter((d) => dnsDead(results.get(d.domain))).map((d) => ({ ...d, err: results.get(d.domain).err })));
+// dropUnreachable 的分组（自动发现）只保留可达条目，其余直接丢弃，不污染「待观察」
+const listed = sections.map((s) => s.domains
+  .filter((d) => !dnsDead(results.get(d.domain)))
+  .filter((d) => !s.dropUnreachable || results.get(d.domain)?.ok));
+const dead = sections
+  .filter((s) => !s.dropUnreachable)
+  .flatMap((s) => s.domains.filter((d) => dnsDead(results.get(d.domain))).map((d) => ({ ...d, err: results.get(d.domain).err })));
 const total = queue.length;
 const okCount = listed.reduce((n, list) => n + list.filter((d) => results.get(d.domain)?.ok).length, 0);
 const viaHttp = listed.flat().filter((d) => results.get(d.domain)?.via === 'http').length;
-const unreachable = listed.reduce((n, list) => n + list.filter((d) => !results.get(d.domain)?.ok).length, 0);
+const unreachable = sections
+  .filter((s) => !s.dropUnreachable)
+  .reduce((n, s, i) => n + listed[i].filter((d) => !results.get(d.domain)?.ok).length, 0);
+const autoSection = sections.find((s) => s.dropUnreachable);
+const autoFound = autoSection ? listed[sections.indexOf(autoSection)].length : 0;
+const autoDropped = autoSection ? autoSection.domains.length - autoFound : 0;
 
 const md = [];
 md.push('# Steam 直连域名\n');
 md.push('> 本文件由 `scripts/build.mjs` 自动生成，GitHub Actions 每月 1 日刷新，请勿手工修改。\n');
 md.push(`> 最近更新：${stamp}　探测节点：\`${node}\``);
-md.push(`> 共 ${total} 个域名　可达 ${okCount}（其中 ${viaHttp} 个仅 HTTP）　未连通 ${unreachable}　待观察 ${dead.length}\n`);
+md.push(`> 共 ${total} 个域名　可达 ${okCount}（其中 ${viaHttp} 个仅 HTTP）　未连通 ${unreachable}　待观察 ${dead.length}`);
+if (autoSection) md.push(`> 自动发现：采集命中 ${autoFound + autoDropped} 个，本次可达 ${autoFound} 个，未通的 ${autoDropped} 个未列出\n`);
+else md.push('');
 md.push('> 注意：GitHub 托管 runner 位于境外，不含 GFW 干扰；「国内能否直连」请用自托管 runner 复核。\n');
 
 for (let i = 0; i < sections.length; i++) {
